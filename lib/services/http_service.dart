@@ -15,6 +15,20 @@ class HttpService {
       print(error);
     }
   }
+
+   Future<Youtube> youtubeBulkData(String urlList) async {
+    try {
+      // var client = Dio(BaseOptions(baseUrl: "http://34.208.206.10/youtube/"));
+      final String baseURL = 'http://34.208.206.10/youtube/';
+
+      Response response = await Dio().post(baseURL + 'download-bulk-urls/', data: urlList);
+      // print(response.data);
+      // print(Youtube.fromJson(response.data));
+      return Youtube.fromBulkJson(response.data);
+    } catch (error) {
+      print(error);
+    }
+  }
 }
 
 // import 'package:youtube_downloader/models/youtube_model.dart';
