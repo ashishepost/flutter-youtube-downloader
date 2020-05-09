@@ -171,6 +171,15 @@ class _HistoryPageState extends State<HistoryPage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
+                                                FadeInImage.assetNetwork(
+                                                  placeholder:
+                                                      'assets/loader.gif',
+                                                  // placeholderScale: 20,
+                                                  image: item.thumbnail,
+                                                  height: 40,
+                                                ),
+                                                // Image(image: AssetImage('assets/loader.gif'), height: 40),
+                                                SizedBox(width: 5),
                                                 new Expanded(
                                                   child: new Text(
                                                     item.name,
@@ -404,16 +413,31 @@ class _HistoryPageState extends State<HistoryPage> {
     int count = 0;
     _tasks = [];
     _items = [];
+    // print("tilu");
+    // print(global.videos);
+    _tasks.addAll(global.videos.map((video) => _TaskInfo(
+        name: video['name'],
+        link: video['link'],
+        thumbnail: video['thumbnail'])));
 
-    _tasks.addAll(global.videos
-        .map((video) => _TaskInfo(name: video['name'], link: video['link'])));
-
-    _items.add(_ItemHolder(name: 'Youtube Videos Queue'));
+    if (_tasks.length == 0) {
+      _items.add(_ItemHolder(name: 'No Youtube Videos in Queue'));
+    } else {
+      _items.add(_ItemHolder(name: 'Youtube Videos Queue'));
+    }
     for (int i = count; i < _tasks.length; i++) {
-      _items.add(_ItemHolder(name: _tasks[i].name, task: _tasks[i]));
+      _items.add(_ItemHolder(
+          name: _tasks[i].name,
+          thumbnail: _tasks[i].thumbnail,
+          task: _tasks[i]));
+      // print("kalu");
+      // print(_tasks[i].name + _tasks[i].thumbnail);
+      // print(_tasks[i].thumbnail);
+      // print(_tasks[i].name);
       count++;
     }
-
+    //  print(_tasks.length);
+    // print(_items);
     tasks?.forEach((task) {
       for (_TaskInfo info in _tasks) {
         if (info.link == task.url) {
@@ -450,19 +474,21 @@ class _HistoryPageState extends State<HistoryPage> {
 class _TaskInfo {
   final String name;
   final String link;
+  final String thumbnail;
 
   String taskId;
   int progress = 0;
   DownloadTaskStatus status = DownloadTaskStatus.undefined;
 
-  _TaskInfo({this.name, this.link});
+  _TaskInfo({this.name, this.link, this.thumbnail});
 }
 
 class _ItemHolder {
   final String name;
+  final String thumbnail;
   final _TaskInfo task;
 
-  _ItemHolder({this.name, this.task});
+  _ItemHolder({this.name, this.thumbnail, this.task});
 }
 
 // var history = History();

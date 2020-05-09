@@ -57,7 +57,7 @@ class _AddToQueueState extends State<AddToQueuePage> {
           for (var urlDetails in youtubeURLData.urlData) {
             // print(urlDetails['video_url']);
             global.videos.add(
-                {'name': urlDetails['title'], 'link': urlDetails['video_url']});
+                {'name': urlDetails['title'], 'link': urlDetails['video_url'], 'thumbnail': urlDetails['thumbnail']});
             // print({'name': urlDetails['title'], 'link': urlDetails['video_url']});
           }
           setState(() {
@@ -84,7 +84,8 @@ class _AddToQueueState extends State<AddToQueuePage> {
               .then((Youtube youtubeURLData) {
             global.videos.add({
               'name': youtubeURLData.title,
-              'link': youtubeURLData.videoURL
+              'link': youtubeURLData.videoURL,
+              'thumbnail': youtubeURLData.thumbnail,
             });
 
             setState(() {
@@ -251,7 +252,7 @@ class _AddToQueueState extends State<AddToQueuePage> {
         // validator: (name) {
         //   Pattern pattern =
         //       r'^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+$';
-        //   RegExp regex = new RegExp(pattern);
+        //   RegExp regex = new RegExp(pat.ptern);
         //   if (!regex.hasMatch(name))
         //     return 'Invalid Youtube URL';
         //   else
